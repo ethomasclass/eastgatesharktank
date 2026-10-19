@@ -1,0 +1,11 @@
+# Teacher-only plain text: only the encrypted copy (content/teacher.enc.json) is committed.
+content/teacher.json
+content/faq.draft.json
+# API keys for the audio tools
+.env
+tools/.env
+# ElevenLabs response cache (re-voicing unchanged text costs nothing)
+tools/cache/
+node_modules/
+.DS_Store
+__pycache__/

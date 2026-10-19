@@ -1,0 +1,30 @@
+{
+  "turnpike": {
+    "anchor": "closed",
+    "face": [520, 180, 860, 500],
+    "frames": { "closed": "closed.jpg", "open": "open.jpg", "blink": "blink.jpg" }
+  },
+  "slater": {
+    "anchor": "closed",
+    "face": [600, 200, 900, 480],
+    "frames": { "closed": "closed.jpg", "mid": "mid.jpg", "open": "open.jpg", "blink": "blink.jpg" }
+  },
+  "steamboat": {
+    "anchor": "mid",
+    "face": [560, 230, 840, 480],
+    "frames": { "mid": "mid.jpg", "open": "open.jpg", "blink": "blink.jpg" },
+    "compose": { "closed": { "base": "mid", "from": "blink.jpg", "box": [680, 390, 800, 462] } }
+  },
+  "erie": {
+    "anchor": "mid",
+    "face": [540, 230, 810, 450],
+    "frames": { "mid": "mid.jpg", "open": "open.jpg", "blink": "blink.jpg" },
+    "compose": { "closed": { "base": "mid", "from": "blink.jpg", "box": [585, 322, 690, 398] } }
+  },
+  "northerncross": {
+    "anchor": "mid",
+    "face": [560, 190, 900, 460],
+    "frames": { "mid": "mid.jpg", "open": "open.jpg", "blink": "blink.jpg" },
+    "compose": { "closed": { "base": "mid", "from": "blink.jpg", "box": [630, 300, 810, 392] } }
+  }
+}

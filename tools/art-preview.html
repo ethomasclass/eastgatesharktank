@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exhibit Art Preview</title>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { display: block; overflow: auto; background: #07090c; }
+    .wrap { display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; }
+    .sim { position: relative; width: 960px; height: 540px; container-type: size; font-size: 1.6cqw; background: #0b2230; overflow: hidden; }
+    .sim .exhibit { animation: none; }
+    .big { width: 800px; height: 520px; background: #f7efdc; }
+    .big svg { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <!-- tools/art-preview.html?pid=erie        every exhibit card for a pitch, at real easel size
+       tools/art-preview.html?pid=erie&big=1  just the drawings, large -->
+  <div class="wrap" id="wrap"></div>
+  <script type="module">
+    const q = new URLSearchParams(location.search);
+    const pid = q.get('pid') || 'turnpike';
+    const origFetch = window.fetch;
+    window.fetch = (u, o) => origFetch(typeof u === 'string' && u.startsWith('content/') ? '../' + u : u, o);
+    const { loadExhibits, exhibitCard } = await import('../js/exhibits.js');
+    const exs = await loadExhibits(pid);
+    document.getElementById('wrap').innerHTML = exs.map((ex, i) => q.get('big')
+      ? `<div class="big" data-art="${ex.art}">${ex.svg}</div>`
+      : `<div class="sim" data-art="${ex.art}"><div class="easel" style="top:4%">${exhibitCard(ex, i, exs.length)}</div></div>`).join('');
+    document.body.dataset.ready = '1';
+  </script>
+</body>
+</html>

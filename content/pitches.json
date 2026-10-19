@@ -1,0 +1,87 @@
+{
+  "defaultOrder": [
+    "mercado",
+    "brewery",
+    "landing",
+    "residences",
+    "littleprague"
+  ],
+  "briefing": {
+    "title": "Welcome to Eastgate",
+    "speaker": "Dolores Vega",
+    "role": "Volunteer, Eastgate Historical Society",
+    "place": "Saint Wenceslas Church and parish hall, Vine & 18th"
+  },
+  "pitches": {
+    "mercado": {
+      "title": "Mercado Vine",
+      "year": "Market",
+      "place": "Old parish hall, Vine & 18th",
+      "speaker": "Rosario Medina",
+      "role": "Owner, Panadería La Esperanza, since 1982",
+      "tagline": "Lost her notes. Found her point.",
+      "seeking": "Backers for a 14-stall vendor market",
+      "prospectus": {
+        "buying": "A share of a vendor market inside the parish hall",
+        "earns": "Stall rent: $300 a month from each of 14 vendors",
+        "promise": "Full stalls from day one. Steady, not fast."
+      }
+    },
+    "brewery": {
+      "title": "Eastgate Brewing",
+      "year": "Brewery",
+      "place": "Old parish hall, Vine & 18th",
+      "speaker": "Cole Brennan",
+      "role": "Home brewer who grew up on 19th Street",
+      "tagline": "Hoppy to be here. Sorry.",
+      "seeking": "Investors in a craft brewery and taproom",
+      "prospectus": {
+        "buying": "A share of a brewery in the restored parish hall",
+        "earns": "Eight-dollar pints, taproom food and local beer sales",
+        "promise": "Keeps the cornerstone and the old signs. Hires 12 neighbors."
+      }
+    },
+    "landing": {
+      "title": "The Landing",
+      "year": "Women's space",
+      "place": "Old parish hall, Vine & 18th",
+      "speaker": "Maggie Alvarez-Novak",
+      "role": "Former ER nurse",
+      "tagline": "Has a plan for if you interrupt her.",
+      "seeking": "Investors in a women's gym, co-working floor and childcare center",
+      "prospectus": {
+        "buying": "A share of The Landing inside the parish hall",
+        "earns": "$45 monthly memberships and $6-an-hour childcare",
+        "promise": "A lit entrance, a waitlist, and a room with 98 years of history"
+      }
+    },
+    "residences": {
+      "title": "The Residences at Vine",
+      "year": "Lofts",
+      "place": "Church and hall site, Vine & 18th",
+      "speaker": "Brent Hollis-Whitcomb",
+      "role": "Hollis and Whitcomb Capital",
+      "tagline": "Did his research. On an app.",
+      "seeking": "Investors in 60 luxury lofts",
+      "prospectus": {
+        "buying": "A share of 60 new lofts (the church comes down)",
+        "earns": "Rents from $2,400 to $3,100 a month",
+        "promise": "90% of units reserved in 48 hours. Done in 18 months."
+      }
+    },
+    "littleprague": {
+      "title": "Little Prague Experience",
+      "year": "Theme hall",
+      "place": "Old parish hall, Vine & 18th",
+      "speaker": "Gerry Dvorak",
+      "role": "Suburban restaurateur, one-eighth Czech",
+      "tagline": "Brought his accordion. Will use it.",
+      "seeking": "Investors in a Czech-themed beer hall and gift shop",
+      "prospectus": {
+        "buying": "A share of a themed beer hall and gift shop",
+        "earns": "Beer, pretzels, souvenirs and suburban tour buses",
+        "promise": "Giving the neighborhood its heritage back"
+      }
+    }
+  }
+}
