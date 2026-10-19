@@ -1,0 +1,14 @@
+// Logo for the residences pitch: the full lockup (podium, intro card) and the round icon.
+export default {
+  mark: `<svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg">
+  <rect x="14" y="40" width="452" height="170" rx="18" fill="#26292d" stroke="#1b1410" stroke-width="6"/>
+  <rect x="26" y="52" width="428" height="146" rx="12" fill="none" stroke="#9aa3ab" stroke-width="3"/>
+  <g transform="translate(78 126)"><g><rect x="-26" y="-20" width="52" height="56" fill="#cfd5db" stroke="#9aa3ab" stroke-width="2"/><rect x="-21.0" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="-21.0" y="2" width="8" height="9" fill="#8a96a3"/><rect x="-21.0" y="16" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="2" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="16" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="2" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="16" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="2" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="16" width="8" height="9" fill="#8a96a3"/></g></g>
+  <text x="276" y="128" text-anchor="middle" font-family="'Atkinson Hyperlegible', system-ui, sans-serif" font-weight="400" font-size="30" letter-spacing="6" fill="#d8dee3" stroke="#1b1410" stroke-width="3" paint-order="stroke" stroke-linejoin="round">THE RESIDENCES</text>
+  <text x="276" y="170" text-anchor="middle" font-family="'Atkinson Hyperlegible', system-ui, sans-serif" font-weight="400" font-size="24" letter-spacing="14" fill="#9aa3ab">AT VINE</text>
+</svg>`,
+  icon: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="54" fill="#26292d" stroke="#1b1410" stroke-width="5"/><circle cx="60" cy="60" r="45" fill="none" stroke="#9aa3ab" stroke-width="2.5"/>
+  <g transform="translate(60 62) scale(1.05)"><g><rect x="-26" y="-20" width="52" height="56" fill="#cfd5db" stroke="#9aa3ab" stroke-width="2"/><rect x="-21.0" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="-21.0" y="2" width="8" height="9" fill="#8a96a3"/><rect x="-21.0" y="16" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="2" width="8" height="9" fill="#8a96a3"/><rect x="-9.5" y="16" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="2" width="8" height="9" fill="#8a96a3"/><rect x="2.0" y="16" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="-12" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="2" width="8" height="9" fill="#8a96a3"/><rect x="13.5" y="16" width="8" height="9" fill="#8a96a3"/></g></g>
+</svg>`,
+};
