@@ -1,5 +1,5 @@
-// The Eastgate Tank: game flow, teacher tools and the "Five Years Later" reveal.
-// Built on The Tank (Transportation Revolution); the flow is the same, plus a neighborhood briefing.
+// For Lease: Vine & 18th. Game flow, teacher tools and the "Five Years Later" reveal.
+// Built on The Tank (Transportation Revolution): the same mechanics, plus a neighborhood briefing.
 // Routes: #/            lobby
 //         #/play/class  projector run (students write on their worksheets)
 //         #/play/solo   catch-up run for an absent student (invests on screen)
@@ -53,7 +53,7 @@ const spent = (run) => Object.values(run.invest).reduce((a, b) => a + b, 0);
 // ---------- layout helpers ----------
 function setScene(inner, { spot = '25%', sign = true, gobo = '' } = {}) {
   if (stopCurrent) { stopCurrent(); stopCurrent = null; }
-  app.innerHTML = `<div class="set"><div class="wall"></div><div class="floor"></div><div class="lamp l"></div><div class="lamp r"></div>${sign ? '<div class="sign">THE TANK</div>' : ''}${gobo ? `<div class="gobo ${gobo}">${tankEmblem('gobo')}</div>` : ''}</div>
+  app.innerHTML = `<div class="set"><div class="wall"></div><div class="windows"><i></i><i></i><i></i></div><div class="floor"></div><div class="lamp l"></div><div class="lamp r"></div>${sign ? '<div class="sign">FOR LEASE</div>' : ''}${gobo ? `<div class="gobo ${gobo}">${tankEmblem('gobo')}</div>` : ''}</div>
     <div class="spot" style="--spot-x:${spot}"></div><div class="layer" style="position:absolute;inset:0">${inner}</div>`;
   return app.querySelector('.layer');
 }
@@ -79,8 +79,8 @@ function lobby() {
   const cls = getRun('class'), solo = getRun('solo');
   const L = setScene(`
     <div class="lobby"><div>
-      <div class="marquee"><div class="bulbs"></div><h1>THE TANK</h1><div class="years">EASTGATE &nbsp;·&nbsp; VINE &amp; 18TH</div></div>
-      <p class="sub">One empty church hall. Five pitches for what it should become. You have <b>$1,000</b>. Read the neighborhood, invest after each pitch. No take-backs.</p>
+      <div class="marquee"><h1>FOR LEASE</h1><div class="years">The old parish hall at Vine &amp; 18th</div></div>
+      <p class="sub">Five people want this hall. You have <b>$1,000</b>. Read the neighborhood, hear the pitches, and invest after each one. No take-backs.</p>
       <div class="choices">
         <button class="btn primary big" data-act="class">${cls && cls.step !== 'done' ? 'Resume class game' : 'Start class game'}</button>
         <button class="btn big" data-act="solo">${solo ? 'Resume catch-up' : 'Catch-up (play on your own)'}</button>
@@ -88,8 +88,7 @@ function lobby() {
       </div>
       <div class="lobby-tools"><button class="btn small ghost" data-act="howto">&#10067; How to play</button><button class="btn small ghost" data-act="clear">&#10227; Clear class &amp; catch-up games</button></div>
       <div class="meta">Class setup: Period ${esc(s.period)} · briefing + five 90-second pitches · ${s.qLimit} question${s.qLimit === 1 ? '' : 's'} per pitch${cls ? ` · <button class="homebtn" data-act="restart-class" style="text-decoration:underline">start class game over</button>` : ''}</div>
-    </div></div>
-    <div class="fin"></div>`, { spot: '50%', sign: false, gobo: 'center' });
+    </div></div>`, { spot: '50%', sign: false });
   L.addEventListener('click', (e) => {
     const a = e.target.closest('[data-act]')?.dataset.act;
     if (a === 'class') { if (!cls) saveRun(newRun('class')); location.hash = '#/play/class'; }
@@ -114,7 +113,7 @@ function directions() {
   d.className = 'modal';
   d.innerHTML = `<div class="howto panel" role="dialog" aria-modal="true" aria-labelledby="howto-title">
     <div class="howto-head"><div class="howto-emblem">${tankEmblem('howto')}</div>
-      <div><div class="kicker">Welcome, investor</div><h2 id="howto-title">How to play The Eastgate Tank</h2>
+      <div><div class="kicker">Welcome, investor</div><h2 id="howto-title">How to play For Lease</h2>
       <p class="lede">The old parish hall at Vine and 18th is for lease, and you have <b>$1,000</b> to invest. Five people will pitch what it should become. Finish with the most money.</p></div></div>
     <ol class="howto-steps">
       <li><b>Read the neighborhood.</b> A local historian shows you Eastgate first. Its clues decide which pitches fit.</li>
@@ -133,7 +132,8 @@ function directions() {
   const onKey = (e) => { if (e.key === 'Escape') close(); };
   d.addEventListener('click', (e) => { if (e.target === d || e.target.closest('[data-act=close-howto]')) close(); });
   document.addEventListener('keydown', onKey);
-  d.querySelector('[data-act=close-howto]').focus();
+  d.querySelector('[data-act=close-howto]').focus({ preventScroll: true });
+  d.querySelector('.howto').scrollTop = 0;
 }
 
 // ---------- the run ----------
@@ -198,7 +198,7 @@ async function intro(run, pid, p, chips, go) {
       <div class="door"></div>
       <div class="card panel">
         <div class="card-logo">${(await logoFor(pid))?.mark || ''}</div>
-        <div class="kicker">Entering the Tank</div>
+        <div class="kicker">Next up at the podium</div>
         <div class="year stamp-year ${/^\d+$/.test(p.year) ? '' : 'word'}">${esc(p.year)}</div>
         <div class="place">${esc(p.place)}</div>
         <h2 class="who">${esc(p.speaker)}</h2>
@@ -238,7 +238,7 @@ async function questions(run, pid, p, chips, go) {
   const asked = run.asked[pid] || [];
   const L = setScene(`${topbar(chips, `${reviewBtn(pid)}<button class="btn small ghost" data-act="replay">&#8634; Hear the pitch again</button>`)}
     <div class="qa">
-      <div class="head"><div class="qa-title"><div class="qa-icon">${(await logoFor(pid))?.icon || ''}</div><div><div class="kicker">The sharks' questions</div><h2>${run.mode === 'class' ? `Choose ${limit === 1 ? 'one question' : `${limit} questions`} for ${esc(p.speaker.split(' ').slice(-1)[0])}` : `Ask ${esc(p.speaker)} ${limit === 1 ? 'one question' : `${limit} questions`}`}</h2></div></div>
+      <div class="head"><div class="qa-title"><div class="qa-icon">${(await logoFor(pid))?.icon || ''}</div><div><div class="kicker">Your questions</div><h2>${run.mode === 'class' ? `Choose ${limit === 1 ? 'one question' : `${limit} questions`} for ${esc(p.speaker.split(' ').slice(-1)[0])}` : `Ask ${esc(p.speaker)} ${limit === 1 ? 'one question' : `${limit} questions`}`}</h2></div></div>
         <div class="count"></div></div>
       <div class="qlist"></div>
       <div class="foot"><button class="btn primary big" data-act="next">Decision time &rarr;</button></div>
@@ -306,13 +306,13 @@ function decide(run, pid, p, chips, go) {
     const L = setScene(`${topbar(chips, reviewBtn(pid))}
       <div class="decide"><div class="panel">
         ${last ? '<div class="final-banner">Final pitch</div>' : '<div class="kicker">Decision time</div>'}
-        <h2>${last ? 'Everything you have left goes to ' + esc(p.speaker) : 'Sharks, make your offer to ' + esc(p.speaker)}</h2>
+        <h2>${last ? 'Everything you have left goes to ' + esc(p.speaker) : 'Investors, make your offer to ' + esc(p.speaker)}</h2>
         <ul class="rules">
           ${last ? '<li>Unspent money is worth nothing, so your whole remaining balance goes into this pitch.</li><li>Write it on your worksheet. Your five investments must add up to <b>$1,000</b>.</li>'
                  : `<li>Write your investment in <b>${esc(p.title)}</b> on your worksheet, from $0 up to everything you have left.</li><li>Subtract it from your balance. This choice is <b>final</b>.</li><li>You won't hear the next pitch first. Is this one good enough, or is something better coming?</li>`}
         </ul>
-        ${secs ? `<div class="timer" aria-live="off">${secs}</div><div style="display:flex;gap:1cqw;justify-content:center"><button class="btn" data-act="timer">Start the clock</button><button class="btn primary" data-act="next">${last ? 'Close the Tank' : 'Next entrepreneur &rarr;'}</button></div>`
-               : `<button class="btn primary big" data-act="next">${last ? 'Close the Tank' : 'Next entrepreneur &rarr;'}</button>`}
+        ${secs ? `<div class="timer" aria-live="off">${secs}</div><div style="display:flex;gap:1cqw;justify-content:center"><button class="btn" data-act="timer">Start the clock</button><button class="btn primary" data-act="next">${last ? 'End pitch night' : 'Next entrepreneur &rarr;'}</button></div>`
+               : `<button class="btn primary big" data-act="next">${last ? 'End pitch night' : 'Next entrepreneur &rarr;'}</button>`}
       </div></div>`, { spot: '50%' });
     let left = secs, id = null;
     const timer = L.querySelector('.timer');
@@ -374,7 +374,7 @@ function closed(run) {
   if (run.mode === 'class') {
     setScene(`${topbar()}
       <div class="closed"><div class="panel">
-        <div class="kicker">The Tank is closed</div>
+        <div class="kicker">Pitch night is over</div>
         <h2>Check your worksheet</h2>
         <p>You heard all five pitches. Your five investments should add up to exactly <b>$1,000</b>.</p>
         <p>Five years pass. Leases are signed, walls are painted, and the block changes. What happened at Vine and 18th, and where did your money end up?</p>
@@ -385,7 +385,7 @@ function closed(run) {
   const rows = run.order.map((id) => `<tr><td>${esc(C.pitches[id].title)} <span style="color:var(--muted)">(${esc(C.pitches[id].year)})</span></td><td class="num">${money(run.invest[id] || 0)}</td></tr>`).join('');
   setScene(`${topbar()}
     <div class="closed"><div class="panel">
-      <div class="kicker">The Tank is closed</div>
+      <div class="kicker">Pitch night is over</div>
       <h2>Your investments</h2>
       <table class="summary"><tbody>${rows}</tbody><tfoot><tr><td>Total</td><td class="num">${money(spent(run))}</td></tr></tfoot></table>
       <p>Copy these onto your worksheet if you haven't. Then ask your teacher to unlock <b>Five Years Later</b>.</p>

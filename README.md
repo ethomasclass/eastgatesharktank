@@ -1,8 +1,8 @@
-# The Eastgate Tank
+# For Lease: Vine & 18th
 
 A Shark Tank-style investing game for AP Human Geography, Unit 3 (cultural landscape, topic 3.2). Students hear a briefing on Eastgate, a fictional Chicago-style neighborhood, then five pitches for what its empty 1893 church hall should become. They invest $1,000 as they go, then see what happened in **Five Years Later**.
 
-It runs exactly like The Tank (`ethomasclass/transportrevshark`), with one addition: a narrated neighborhood briefing before the first pitch.
+It runs exactly like The Tank (`ethomasclass/transportrevshark`), with one addition: a narrated neighborhood briefing before the first pitch. It has its own look: pitch night inside the empty parish hall, with dark brick, tall arched windows, globe pendants, a concrete floor, and a red-and-white FOR LEASE sign as the brand (Archivo for display type, Atkinson Hyperlegible for reading).
 
 **Concepts:** ethnic enclaves (choice vs. segregation), charter group, sequent occupancy, neolocalism, gendered space, reactions to new residents, perceptual regions.
 
@@ -56,6 +56,14 @@ Voiced with ElevenLabs `eleven_v3` by `tools/voice.py` (voices, delivery tags an
 | Maggie Alvarez-Novak (The Landing) | Lina |
 | Brent Hollis-Whitcomb (Residences) | Daniel |
 | Gerry Dvorak (Little Prague) | Eddie |
+
+### Music
+
+The game plays a quiet loop under each pitch (volume and on/off in Teacher tools). There is no track yet: add one and it plays automatically.
+
+1. Make a 2 to 3 minute instrumental. Brief: *modern, warm and confident neighborhood pitch-night music; 88 to 96 BPM; Rhodes keys, upright or electric bass, brushed drums, light nylon-string guitar and soft hand percussion; no vocals; steady energy with no big build or ending, so it loops.*
+2. Put it at `assets/audio/source/<name>.mp3` and run `python3 tools/music_loop.py "assets/audio/source/<name>.mp3"`. That crossfades the end into the start and writes `assets/audio/theme.mp3` at the voices' loudness.
+3. Commit and push.
 
 ## Hosting
 

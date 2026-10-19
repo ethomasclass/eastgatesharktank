@@ -4,7 +4,7 @@ The track's last few seconds are crossfaded into its first few, so when the play
 end back to the start the music simply continues. Loudness is set to -16 LUFS (the voices' level);
 the site then plays it quietly underneath them.
 
-  python3 tools/music_loop.py "assets/audio/source/soft-bowed-strings.mp3"
+  python3 tools/music_loop.py "assets/audio/source/<your track>.mp3"
 """
 import os, subprocess, sys
 import numpy as np
