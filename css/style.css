@@ -451,3 +451,29 @@ input[type=range].slider { width: 60%; accent-color: var(--sign); }
 
 /* topbar buttons sit over the pendants, so they get a solid backing */
 .topbar .btn, .topbar .btn.ghost { background: rgba(23,14,12,.92); }
+
+/* in-page confirmation box (replaces window.confirm, which sandboxed frames block) */
+.ask { width: 46%; padding: 2.2cqw 2.6cqw; text-align: center; }
+.ask p { font-size: 1.7cqw; line-height: 1.45; margin: 0 0 1.6cqw; }
+.ask-btns { display: flex; gap: 1cqw; justify-content: center; }
+
+/* ---------- welcome: how it works + the curriculum connection ---------- */
+.welcome { position: absolute; left: 4%; right: 4%; top: 10%; bottom: 4%; padding: 1.8cqw 2.4cqw; display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.6cqw; }
+.welcome .w-col:first-child { display: flex; flex-direction: column; }
+.welcome h2 { font-family: var(--display); font-weight: 900; font-stretch: 85%; font-size: 3.6cqw; line-height: 1; margin: 0 0 .9cqw; }
+.w-lede { font-size: 1.55cqw; line-height: 1.45; margin: 0 0 1.2cqw; }
+.w-lede b { color: var(--marigold); }
+.w-steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .9cqw; }
+.w-steps li { counter-increment: s; position: relative; padding-left: 3.4cqw; font-size: 1.4cqw; line-height: 1.38; }
+.w-steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 2.4cqw; height: 2.4cqw; border-radius: .3cqw; background: var(--sign); color: var(--white);
+  font-family: var(--display); font-weight: 900; font-size: 1.4cqw; display: grid; place-items: center; }
+.w-steps b { color: var(--white); }
+.w-learn { background: rgba(251,250,246,.05); border-left: .4cqw solid var(--teal); border-radius: .3cqw; padding: 1.2cqw 1.6cqw; }
+.w-unit { font-family: var(--display); font-weight: 800; font-stretch: 88%; font-size: 1.9cqw; color: var(--white); line-height: 1.15; }
+.w-unit span { display: block; color: #8fd0cb; font-size: 1.5cqw; font-weight: 700; }
+.w-learn > p { font-size: 1.3cqw; line-height: 1.4; margin: .8cqw 0; }
+.w-terms { list-style: none; padding: 0; margin: 0; font-size: 1.22cqw; line-height: 1.32; display: flex; flex-direction: column; gap: .4cqw; }
+.w-terms b { color: var(--marigold); }
+.w-learn .w-goal { font-weight: 700; color: var(--white); margin-bottom: 0; }
+.w-go { margin-top: auto; padding-top: 1cqw; }
+.howto-unit { display: block; margin-top: .3cqw; color: #8fd0cb; font-weight: 700; font-size: 1.3cqw; }

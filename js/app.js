@@ -40,7 +40,7 @@ function newRun(mode) {
   const s = settings();
   if (mode === 'class' && !s.orders[s.period]) { s.orders[s.period] = shuffle(C.defaultOrder); saveSettings(s); }
   return { mode, order: mode === 'class' ? periodOrder(s) : shuffle(C.defaultOrder),
-    period: s.period, i: 0, step: 'briefing', asked: {}, invest: {} };
+    period: s.period, i: 0, step: 'welcome', asked: {}, invest: {} };
 }
 // Each venture's logo (js/logos/<pitch id>.js: { mark, icon }), or null if it hasn't been made.
 const logos = {};
@@ -59,6 +59,25 @@ function setScene(inner, { spot = '25%', sign = true, gobo = '' } = {}) {
 }
 function topbar(left = '', right = '') {
   return `<div class="topbar"><div style="display:flex;gap:.8cqw;align-items:center"><button class="homebtn" data-go="#/">&larr; Lobby</button>${left}</div><div style="display:flex;gap:.8cqw">${right}</div></div>`;
+}
+// In-page yes/no box. window.confirm() is blocked when the game runs inside a sandboxed frame
+// (the published artifact), where it silently returns false, so every confirmation uses this.
+function ask(message, { ok = 'Yes', cancel = 'Cancel' } = {}) {
+  return new Promise((resolve) => {
+    const d = document.createElement('div');
+    d.className = 'modal';
+    d.innerHTML = `<div class="ask panel" role="alertdialog" aria-modal="true"><p>${esc(message)}</p>
+      <div class="ask-btns"><button class="btn ghost" data-a="no">${esc(cancel)}</button><button class="btn primary" data-a="yes">${esc(ok)}</button></div></div>`;
+    app.append(d);
+    const done = (v) => { d.remove(); document.removeEventListener('keydown', onKey); resolve(v); };
+    const onKey = (e) => { if (e.key === 'Escape') done(false); };
+    d.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-a]');
+      if (b) done(b.dataset.a === 'yes'); else if (e.target === d) done(false);
+    });
+    document.addEventListener('keydown', onKey);
+    d.querySelector('[data-a=yes]').focus();
+  });
 }
 function toast(msg) {
   const t = document.createElement('div');
@@ -89,13 +108,13 @@ function lobby() {
       <div class="lobby-tools"><button class="btn small ghost" data-act="howto">&#10067; How to play</button><button class="btn small ghost" data-act="clear">&#10227; Clear class &amp; catch-up games</button></div>
       <div class="meta">Class setup: Period ${esc(s.period)} · briefing + five 90-second pitches · ${s.qLimit} question${s.qLimit === 1 ? '' : 's'} per pitch${cls ? ` · <button class="homebtn" data-act="restart-class" style="text-decoration:underline">start class game over</button>` : ''}</div>
     </div></div>`, { spot: '50%', sign: false });
-  L.addEventListener('click', (e) => {
+  L.addEventListener('click', async (e) => {
     const a = e.target.closest('[data-act]')?.dataset.act;
     if (a === 'class') { if (!cls) saveRun(newRun('class')); location.hash = '#/play/class'; }
     if (a === 'solo') { if (!solo) saveRun(newRun('solo')); location.hash = '#/play/solo'; }
-    if (a === 'restart-class' && confirm('Start the class game over from the first pitch?')) { saveRun(newRun('class')); location.hash = '#/play/class'; }
+    if (a === 'restart-class' && await ask('Start the class game over from the briefing?', { ok: 'Start over' })) { saveRun(newRun('class')); location.hash = '#/play/class'; }
     if (a === 'howto') directions();
-    if (a === 'clear' && confirm('Clear the class game and the catch-up game on this computer? Everyone starts over at the briefing with $1,000. (Teacher settings and leaderboards are kept.)')) {
+    if (a === 'clear' && await ask('Clear the class game and the catch-up game on this computer? Everyone starts over at the briefing with $1,000. Teacher settings and leaderboards are kept.', { ok: 'Clear both games' })) {
       store.local.del('eastgate.run.class');
       store.local.del('eastgate.run.solo');
       store.session.del('eastgate.reveal.class');
@@ -114,7 +133,7 @@ function directions() {
   d.innerHTML = `<div class="howto panel" role="dialog" aria-modal="true" aria-labelledby="howto-title">
     <div class="howto-head"><div class="howto-emblem">${tankEmblem('howto')}</div>
       <div><div class="kicker">Welcome, investor</div><h2 id="howto-title">How to play For Lease</h2>
-      <p class="lede">The old parish hall at Vine and 18th is for lease, and you have <b>$1,000</b> to invest. Five people will pitch what it should become. Finish with the most money.</p></div></div>
+      <p class="lede">The old parish hall at Vine and 18th is for lease, and you have <b>$1,000</b> to invest. Five people will pitch what it should become. Finish with the most money by reading the neighborhood like a geographer. <span class="howto-unit">AP Human Geography, Unit 3, Topic 3.2: Cultural Landscapes</span></p></div></div>
     <ol class="howto-steps">
       <li><b>Read the neighborhood.</b> A local historian shows you Eastgate first. Its clues decide which pitches fit.</li>
       <li><b>Meet the pitcher.</b> See who they are and what they want to build.</li>
@@ -142,11 +161,46 @@ function play(mode) {
   if (!run) { run = newRun(mode); saveRun(run); }
   if (run.step === 'done') return closed(run);
   const go = (step) => { run.step = step; saveRun(run); play(mode); };
+  if (run.step === 'welcome') return welcome(run, go);
   if (run.step === 'briefing' || run.step === 'briefingPlay') return (run.step === 'briefing' ? briefingCard : briefingPlay)(run, go);
   const pid = run.order[run.i];
   const pitch = C.pitches[pid];
   const chips = `<span class="chip">Pitch <b>${run.i + 1}</b> of ${run.order.length}</span>${mode === 'solo' ? `<span class="chip">Balance <b>${money(START - spent(run))}</b></span>` : ''}`;
   ({ intro, pitch: pitchStep, questions, decide })[run.step === 'pitch' ? 'pitch' : run.step](run, pid, pitch, chips, go);
+}
+
+// ---------- welcome: what students do and what they're learning (first screen of a game) ----------
+const TERMS = [
+  ['Cultural landscape', 'the visible mark people leave on a place: buildings, signs, languages, businesses'],
+  ['Sequent occupancy', 'different groups leave layers on the same place over time'],
+  ['Charter group', 'the first group to settle a place and shape it'],
+  ['Ethnic enclave', 'a neighborhood where one group clusters, with its own shops, churches and job networks'],
+  ['Neolocalism', 'businesses that build their identity on a place\'s real history'],
+  ['Gendered space', 'a place shaped by who is expected, welcome or safe there'],
+  ['Reactions to new residents', 'how longtime residents respond when newcomers change a neighborhood'],
+];
+function welcome(run, go) {
+  const L = setScene(`${topbar('<span class="chip">Before you start</span>')}
+    <div class="welcome panel">
+      <div class="w-col">
+        <h2>Welcome to pitch night</h2>
+        <p class="w-lede">The old parish hall at Vine and 18th has been empty since 2019. Five people want to lease it, and each one would change the neighborhood in a different way. You're an investor with <b>$1,000</b>.</p>
+        <ol class="w-steps">
+          <li><b>Read the neighborhood.</b> Dolores Vega from the historical society walks you through Eastgate. Write her clues on your worksheet.</li>
+          <li><b>Hear five pitches.</b> Watch the exhibits and listen for what fits the neighborhood and what doesn't.</li>
+          <li><b>Ask, then invest.</b> Choose questions, then invest after each pitch. It's final, and you won't hear the next pitch first. Spend all $1,000.</li>
+          <li><b>Five years later.</b> See what each venture did to the block. Ventures that fit Eastgate's cultural landscape earn the most.</li>
+        </ol>
+        <div class="w-go"><button class="btn primary big" data-act="go">Meet the neighborhood</button></div>
+      </div>
+      <div class="w-col w-learn">
+        <div class="w-unit">AP Human Geography <span>Unit 3, Topic 3.2: Cultural Landscapes</span></div>
+        <p>Every investment is a bet on the next layer of Eastgate's cultural landscape. To pick winners, use these ideas:</p>
+        <ul class="w-terms">${TERMS.map(([t, d]) => `<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join('')}</ul>
+        <p class="w-goal">Invest like a geographer: the money follows the evidence, not the best salesperson.</p>
+      </div>
+    </div>`, { spot: '50%' });
+  L.querySelector('[data-act=go]').addEventListener('click', () => go('briefing'));
 }
 
 // ---------- the neighborhood briefing (before pitch 1) ----------
@@ -352,8 +406,8 @@ function decide(run, pid, p, chips, go) {
   const inp = L.querySelector('#amt'), sl = L.querySelector('.slider'), err = L.querySelector('.err');
   inp?.addEventListener('input', () => { sl.value = inp.value; err.textContent = ''; });
   sl?.addEventListener('input', () => { inp.value = sl.value; err.textContent = ''; });
-  const commit = (amt) => {
-    if (!confirm(`Invest ${money(amt)} in ${p.title}? This is final.`)) return;
+  const commit = async (amt) => {
+    if (!await ask(`Invest ${money(amt)} in ${p.title}? This is final.`, { ok: `Invest ${money(amt)}` })) return;
     run.invest[pid] = amt; saveRun(run); next();
   };
   L.addEventListener('click', (e) => {
@@ -391,8 +445,8 @@ function closed(run) {
       <p>Copy these onto your worksheet if you haven't. Then ask your teacher to unlock <b>Five Years Later</b>.</p>
       <div style="display:flex;gap:1cqw;justify-content:center"><button class="btn primary big" data-go="#/reveal/solo">Five years later &#128274;</button>
       <button class="btn ghost" data-act="again">Start catch-up over</button></div>
-    </div></div>`, { spot: '50%' }).addEventListener('click', (e) => {
-    if (e.target.closest('[data-act=again]') && confirm('Erase these investments and start over?')) { store.local.del('eastgate.run.solo'); location.hash = '#/'; }
+    </div></div>`, { spot: '50%' }).addEventListener('click', async (e) => {
+    if (e.target.closest('[data-act=again]') && await ask('Erase these investments and start over?', { ok: 'Start over' })) { store.local.del('eastgate.run.solo'); location.hash = '#/'; }
   });
 }
 
@@ -528,7 +582,7 @@ function teacher(T, tab = store.session.get('eastgate.ttab', 'setup')) {
         <button class="btn small ghost" data-mv="${i},1" ${i === order.length - 1 ? 'disabled' : ''} aria-label="Move down">&darr;</button></li>`).join('')}</ol>
       <div class="row"><button class="btn small" data-act="shuffle">Shuffle again</button><span style="color:var(--muted)">Each period gets its own shuffled order, so classes can't pass along a pattern.</span></div>
       <h3>Class game</h3>
-      <div class="row"><span>${getRun('class') ? `In progress: ${getRun('class').step.startsWith('briefing') ? 'briefing' : `pitch ${getRun('class').i + 1} of 5 (${esc(getRun('class').step)})`}` : 'Not started'}.</span>
+      <div class="row"><span>${getRun('class') ? `In progress: ${/^(welcome|briefing)/.test(getRun('class').step) ? 'welcome and briefing' : `pitch ${getRun('class').i + 1} of 5 (${esc(getRun('class').step)})`}` : 'Not started'}.</span>
         <button class="btn small" data-act="newclass">Start a fresh class game with these settings</button></div>
       <p style="color:var(--muted)">Settings are saved in this browser, so set them up on the projector computer. The class game picks up the order when it starts. Catch-up mode shuffles its own order.</p>`;
     pane.querySelectorAll('select').forEach((sel) => sel.addEventListener('change', () => {
@@ -536,7 +590,7 @@ function teacher(T, tab = store.session.get('eastgate.ttab', 'setup')) {
       n[sel.dataset.k] = ['qLimit', 'timer', 'music'].includes(sel.dataset.k) ? Number(sel.value) : sel.value;
       saveSettings(n); teacher(T, 'setup');
     }));
-    pane.addEventListener('click', (e) => {
+    pane.addEventListener('click', async (e) => {
       const n = settings();
       const mv = e.target.closest('[data-mv]')?.dataset.mv;
       const a = e.target.closest('[data-act]')?.dataset.act;
@@ -547,7 +601,7 @@ function teacher(T, tab = store.session.get('eastgate.ttab', 'setup')) {
         n.orders[n.period] = o; saveSettings(n); teacher(T, 'setup');
       }
       if (a === 'shuffle') { n.orders[n.period] = shuffle(C.defaultOrder); saveSettings(n); teacher(T, 'setup'); }
-            if (a === 'newclass' && confirm('Start a fresh class game? The current one will be cleared.')) { saveRun(newRun('class')); toast('Fresh class game ready'); teacher(T, 'setup'); }
+            if (a === 'newclass' && await ask('Start a fresh class game? The current one will be cleared.', { ok: 'Start fresh' })) { saveRun(newRun('class')); toast('Fresh class game ready'); teacher(T, 'setup'); }
     });
   }
 
@@ -613,11 +667,11 @@ function teacher(T, tab = store.session.get('eastgate.ttab', 'setup')) {
       const cell = e.target.closest('tr').querySelector('td.num b');
       if (cell) cell.innerHTML = signed(worth(rows[i]));
     });
-    pane.addEventListener('click', (e) => {
+    pane.addEventListener('click', async (e) => {
       const a = e.target.closest('[data-act]')?.dataset.act, d = e.target.closest('[data-del]')?.dataset.del;
       if (a === 'add') { rows.push({ name: '' }); store.local.set(key, rows); draw(); pane.querySelector('tbody tr:last-child input.name')?.focus(); }
       if (a === 'sort') draw();
-      if (a === 'clear' && confirm(`Clear the period ${s.period} leaderboard?`)) { rows = []; store.local.set(key, rows); draw(); }
+      if (a === 'clear' && await ask(`Clear the period ${s.period} leaderboard?`, { ok: 'Clear it' })) { rows = []; store.local.set(key, rows); draw(); }
       if (d != null) { rows.splice(Number(d), 1); store.local.set(key, rows); draw(); }
     });
   }

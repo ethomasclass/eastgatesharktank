@@ -22,7 +22,8 @@ export async function makeActor(pid) {
     const box = document.createElement('div');
     box.className = 'sprite';
     const imgs = {};
-    for (const k of ['closed', 'mid', 'open', 'blink']) {
+    // optional extra shapes (mid2, open2, oo) are mixed in at random so the talking looks less repetitive
+    for (const k of ['closed', 'mid', 'open', 'blink', 'mid2', 'open2', 'oo']) {
       if (!frames[k]) continue;
       const img = new Image();
       img.src = `assets/sprites/${pid}/${frames[k]}`;
@@ -33,8 +34,11 @@ export async function makeActor(pid) {
     const show = () => {
       const m = el.dataset.mouth;
       // a missing frame falls back to its neighbour: no "mid" means flap between closed and open
-      const k = el.dataset.blink === '1' && m === 'closed' && imgs.blink ? 'blink'
+      let k = el.dataset.blink === '1' && m === 'closed' && imgs.blink ? 'blink'
         : imgs[m] ? m : m === 'mid' && imgs.open ? 'open' : 'closed';
+      const alts = k === 'open' ? ['open2', 'oo'] : k === 'mid' ? ['mid2'] : [];
+      const pick = alts.filter((a) => imgs[a]);
+      if (pick.length && Math.random() < 0.45) k = pick[Math.floor(Math.random() * pick.length)];
       for (const [n, img] of Object.entries(imgs)) img.style.visibility = n === k ? 'visible' : 'hidden';
     };
     new MutationObserver(show).observe(el, { attributes: true, attributeFilter: ['data-mouth', 'data-blink'] });

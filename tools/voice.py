@@ -19,14 +19,14 @@ try:
 except ImportError:
     FFMPEG = "ffmpeg"
 
-# Chosen from the ElevenLabs voice library for the Eastgate cast.
+# Eastgate cast. Maggie and Gerry use ElevenLabs' own default voices; the rest are library voices.
 VOICES = {
     "briefing":     {"id": "A0g6t0RQc9zkMPsGNEIG", "name": "Grandma Maria", "stability": 0.5},
     "mercado":      {"id": "FGLJyeekUzxl8M3CTG9M", "name": "Laura",         "stability": 0.5},
     "brewery":      {"id": "q0IMILNRPxOgtBTS4taI", "name": "Drew",          "stability": 0.0},
-    "landing":      {"id": "oWjuL7HSoaEJRMDMP3HD", "name": "Lina",          "stability": 0.5},
+    "landing":      {"id": "EXAVITQu4vr4xnSDxMaL", "name": "Sarah (ElevenLabs default)", "stability": 0.5},
     "residences":   {"id": "b6Q4e5E5onTR1TYEJh9z", "name": "Daniel",        "stability": 0.0},
-    "littleprague": {"id": "cIOaiiemAqOmrhA4l3E5", "name": "Eddie",         "stability": 0.0},
+    "littleprague": {"id": "iP95p4xoKVk53GoZ742B", "name": "Chris (ElevenLabs default)", "stability": 0.0},
 }
 
 # (phrase, tag): the tag is spoken-copy only, inserted before the first place the phrase occurs.

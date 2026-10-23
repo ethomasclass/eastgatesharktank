@@ -1,10 +1,12 @@
 """Builds talking sprites from Google Flow frames on a WHITE background.
 
-  python3 tools/frames_white.py <pid> <closed.jpg> [mid.jpg] [open.jpg] [blink.jpg]
+  python3 tools/frames_white.py <pid> <closed.jpg> mid=<file> open=<file> oo=<file> mid2=<file> open2=<file> blink=<file>
+
+(any subset of the named frames; pid is the pitch id, e.g. littleprague for Gerry)
 
 The closed-mouth portrait is cut out (flood fill from the border), and each other frame is lined
 up with it; only the region that changed (mouth or eyes) is copied over, so the body never
-jitters between frames. Writes assets/sprites/<pid>/{closed,mid,open,blink}.webp and updates
+jitters between frames. Writes assets/sprites/<pid>/<frame>.webp and updates
 content/sprites.json.
 """
 import json, os, sys
@@ -64,7 +66,7 @@ def changed_box(ref, im, head):
 
 def main():
     pid, closed = sys.argv[1], sys.argv[2]
-    others = dict(zip(['mid', 'open', 'blink'], sys.argv[3:]))
+    others = dict(a.split('=', 1) for a in sys.argv[3:])
     ref = load(closed)
     m = mask_white(ref)
     ys, xs = np.where(m > 0)
