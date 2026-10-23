@@ -1,8 +1,56 @@
 {
- "briefing": { "closed": "closed.webp" },
- "mercado": { "closed": "closed.webp" },
- "brewery": { "closed": "closed.webp" },
- "landing": { "closed": "closed.webp" },
- "residences": { "closed": "closed.webp" },
- "littleprague": { "closed": "closed.webp" }
+ "briefing": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ },
+ "mercado": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ },
+ "brewery": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ },
+ "landing": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ },
+ "residences": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ },
+ "littleprague": {
+  "closed": "closed.webp",
+  "mid": "mid.webp",
+  "open": "open.webp",
+  "oo": "oo.webp",
+  "mid2": "mid2.webp",
+  "open2": "open2.webp",
+  "blink": "blink.webp"
+ }
 }
