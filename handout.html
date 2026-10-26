@@ -39,26 +39,27 @@
     .cgrid div { font-weight: 800; font-size: 8pt; }
     .lines i { display: block; border-bottom: 1px solid var(--rule); height: .27in; }
     /* venture box */
-    .venture { border: 2.5px solid var(--ink); margin-bottom: .12in; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-    .v-head { display: flex; align-items: center; gap: .12in; padding: .06in .12in; border-bottom: 1.5px solid var(--ink); }
+    .venture { border: 2.5px solid var(--ink); margin-bottom: .1in; display: flex; flex-direction: column; }
+    .v-head { display: flex; align-items: center; gap: .12in; padding: .04in .12in; border-bottom: 1.5px solid var(--ink); }
     .pitchno { width: .5in; height: .5in; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; text-align: center; font-weight: 800; font-size: 5.5pt; letter-spacing: .08em; line-height: 1.05; flex: none; }
     .pitchno b { display: block; width: .26in; height: .2in; background: #fff; border-radius: 2px; margin: .02in auto 0; }
     .v-name { flex: 1; }
     .v-name h2 { margin: 0; font-weight: 900; font-size: 15pt; line-height: 1.05; }
     .v-name div { font-size: 8.5pt; color: var(--muted); font-weight: 600; }
-    .v-head img { width: .72in; height: .72in; object-fit: cover; border: 2px solid var(--ink); filter: grayscale(1); }
+    .v-head img { width: .62in; height: .62in; object-fit: cover; border: 2px solid var(--ink); filter: grayscale(1); }
     .fields { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
     .fields div { padding: .05in .1in .03in; border-right: 1px solid var(--line); font-weight: 800; font-size: 6.8pt; letter-spacing: .12em; text-transform: uppercase; }
     .fields div:last-child { border-right: none; }
     .fields .lines i { height: .24in; }
     .row { padding: .04in .12in .02in; border-bottom: 1px solid var(--line); }
+    .row .lines i { height: .25in; }
     .row > b { font-size: 9pt; }
-    .connect { background: var(--tint-soft); padding: .05in .12in .03in; border-bottom: 1.5px solid var(--ink); flex: 1; }
+    .connect { background: var(--tint-soft); padding: .04in .12in .03in; border-bottom: 1.5px solid var(--ink); }
     .connect .tab { margin-bottom: .03in; }
     .q { display: grid; grid-template-columns: .22in 1fr; gap: 0 .04in; margin-top: .03in; font-size: 9pt; line-height: 1.3; }
     .q > span { font-weight: 900; font-size: 10pt; }
-    .q .lines i { height: .26in; }
-    .money { display: grid; grid-template-columns: repeat(4, 1fr); gap: .12in; padding: .06in .12in; border-bottom: 1px solid var(--line); align-items: center; }
+    .q .lines i { height: .25in; }
+    .money { display: grid; grid-template-columns: repeat(4, 1fr); gap: .12in; padding: .05in .12in; border-bottom: 1px solid var(--line); align-items: center; }
     .money div { display: flex; align-items: center; gap: .05in; font-weight: 700; font-size: 7.5pt; line-height: 1.05; }
     .money .l { width: .2in; height: .2in; border: 1.5px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-weight: 900; font-size: 8pt; flex: none; }
     .money .box { flex: 1; border: 1.5px solid var(--ink); height: .28in; padding-left: .04in; display: flex; align-items: center; font-weight: 800; }
@@ -132,9 +133,7 @@
           <div class="v-name"><h2>${v.name}</h2><div>${v.who}</div></div>
           <img src="assets/img/heads/${v.id}.png" alt="">
         </div>
-        <div class="fields">
-          <div>Seeking${lines(1)}</div><div>You'd be buying${lines(1)}</div><div>How it makes money${lines(1)}</div><div>The promise${lines(1)}</div>
-        </div>
+        <div class="row idea"><b>The idea.</b> What would this person do with the hall, and how would it make money?${lines(2)}</div>
         <div class="row"><b>Fits the neighborhood?</b> Name ONE briefing clue that backs this pitch up or warns against it.${lines(1)}</div>
         <div class="connect"><span class="tab">Unit 3 connection</span>
           ${v.qs.map((q, i) => `<div class="q"><span>${i + 1}</span><div>${q}${lines(n)}</div></div>`).join('')}
@@ -145,7 +144,7 @@
           <div><span class="l">C</span>Made<br>per $1<span class="box">$</span></div>
           <div><span class="l">D</span>Worth at end<br>= B × C<span class="box">$</span></div>
         </div>
-        <div class="later"><span class="tab">Five years later</span><b>What happened to the block?</b>${lines(1)}</div>
+        <div class="later"><span class="tab">Five years later</span><b>What would have happened to the block?</b>${lines(1)}</div>
       </section>`;
 
     const p1 = `<section class="page"><div class="topbar"></div>
@@ -156,7 +155,7 @@
       </div>
       <div class="nameline">Name <span></span> Date <span class="s"></span> Period <span class="s"></span></div>
       <div class="dbl"></div>
-      <div class="directions"><b>You start with $1,000.</b> After each pitch, invest from $0 up to everything you have left. The choice is final, and you won't hear the next pitch first. Money you still have after the last pitch is worth nothing. <b>The pitches come in a random order:</b> when a pitch starts, find that person's box and write the pitch number in the black circle. During Five Years Later, fill in what happened and what your investment is worth. <b>Worth at end: D = B × C</b> (what you invested × what it made per $1).</div>
+      <div class="directions"><b>You start with $1,000.</b> After each pitch, invest from $0 up to everything you have left. The choice is final, and you won't hear the next pitch first. Money you still have after the last pitch is worth nothing. You are not choosing who gets the lease: split your money across as many ideas as you like. <b>The pitches come in a random order:</b> when a pitch starts, find that person's box and write the pitch number in the black circle. Five Years Later shows each idea's possible future if it had opened in the hall. Fill in what happened and what your investment is worth. <b>Worth at end: D = B × C</b> (what you invested × what it made per $1).</div>
       <div class="clues"><span class="tab">Start here · Read the neighborhood</span>
         <p>While Dolores Vega gives the briefing, write ONE clue for each. You will use them to judge every pitch.</p>
         <div class="cgrid">

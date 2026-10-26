@@ -99,7 +99,7 @@ function lobby() {
   const L = setScene(`
     <div class="lobby"><div>
       <div class="marquee"><h1>FOR LEASE</h1><div class="years">The old parish hall at Vine &amp; 18th</div></div>
-      <p class="sub">Five people want this hall. You have <b>$1,000</b>. Read the neighborhood, hear the pitches, and invest after each one. No take-backs.</p>
+      <p class="sub">Five people have an idea for this hall. You have <b>$1,000</b> to spread across the ideas you believe in. Read the neighborhood, hear the pitches, and invest after each one. No take-backs.</p>
       <div class="choices">
         <button class="btn primary big" data-act="class">${cls && cls.step !== 'done' ? 'Resume class game' : 'Start class game'}</button>
         <button class="btn big" data-act="solo">${solo ? 'Resume catch-up' : 'Catch-up (play on your own)'}</button>
@@ -133,7 +133,7 @@ function directions() {
   d.innerHTML = `<div class="howto panel" role="dialog" aria-modal="true" aria-labelledby="howto-title">
     <div class="howto-head"><div class="howto-emblem">${tankEmblem('howto')}</div>
       <div><div class="kicker">Welcome, investor</div><h2 id="howto-title">How to play For Lease</h2>
-      <p class="lede">The old parish hall at Vine and 18th is for lease, and you have <b>$1,000</b> to invest. Five people will pitch what it should become. Finish with the most money by reading the neighborhood like a geographer. <span class="howto-unit">AP Human Geography, Unit 3, Topic 3.2: Cultural Landscapes</span></p></div></div>
+      <p class="lede">The old parish hall at Vine and 18th is for lease. Five people will pitch what it should become, and you have <b>$1,000</b> to split across as many of their ideas as you like. Finish with the most money by reading the neighborhood like a geographer. <span class="howto-unit">AP Human Geography, Unit 3, Topic 3.2: Cultural Landscapes</span></p></div></div>
     <ol class="howto-steps">
       <li><b>Read the neighborhood.</b> A local historian shows you Eastgate first. Its clues decide which pitches fit.</li>
       <li><b>Meet the pitcher.</b> See who they are and what they want to build.</li>
@@ -141,7 +141,7 @@ function directions() {
       <li><b>Question the promoter.</b> The class chooses questions from the list. Read the answers carefully.</li>
       <li><b>Make your offer.</b> Invest anywhere from $0 to everything you have left. It's final, and you won't hear the next pitch first.</li>
       <li><b>Spend it all.</b> Money you still have after the last pitch is worth nothing.</li>
-      <li><b>Five years later.</b> See what each venture did to the block, and what your money became.</li>
+      <li><b>Five years later.</b> See what each idea would have done to the block if it had opened in the hall, and what your money became.</li>
     </ol>
     <div class="howto-tip"><b>Think like a geographer:</b> the best investment fits the people who already live here. Check every pitch against the briefing: the layers on the building, the names people use, who feels safe where, and who would actually walk in the door.</div>
     <div class="howto-foot"><span>Absent? Choose <b>Catch-up</b> to play on your own.</span><button class="btn primary big" data-act="close-howto">Let's go!</button></div>
@@ -184,12 +184,12 @@ function welcome(run, go) {
     <div class="welcome panel">
       <div class="w-col">
         <h2>Welcome to pitch night</h2>
-        <p class="w-lede">The old parish hall at Vine and 18th has been empty since 2019. Five people want to lease it, and each one would change the neighborhood in a different way. You're an investor with <b>$1,000</b>.</p>
+        <p class="w-lede">The old parish hall at Vine and 18th has been empty since 2019. Five people want to lease it, and each idea would change the neighborhood in a different way. You're not picking who gets the lease. You're an investor with <b>$1,000</b>: put money behind any of the ideas you think would succeed here, as many as you want.</p>
         <ol class="w-steps">
           <li><b>Read the neighborhood.</b> Dolores Vega from the historical society walks you through Eastgate. Write her clues on your worksheet.</li>
           <li><b>Hear five pitches.</b> Watch the exhibits and listen for what fits the neighborhood and what doesn't.</li>
           <li><b>Ask, then invest.</b> Choose questions, then invest after each pitch. It's final, and you won't hear the next pitch first. Spend all $1,000.</li>
-          <li><b>Five years later.</b> See what each venture did to the block. Ventures that fit Eastgate's cultural landscape earn the most.</li>
+          <li><b>Five years later.</b> The hall can only hold one idea, so you'll see five possible futures: what each idea would have done to the block. Ideas that fit Eastgate's cultural landscape earn the most.</li>
         </ol>
         <div class="w-go"><button class="btn primary big" data-act="go">Meet the neighborhood</button></div>
       </div>
@@ -218,7 +218,7 @@ async function briefingCard(run, go) {
         <div class="tagline">&ldquo;Take notes, because the clues are in what you hear.&rdquo;</div>
         <dl class="prospectus">
           <dt>The building</dt><dd>An 1893 church and its parish hall, empty since 2019</dd>
-          <dt>The question</dt><dd>Five people want to lease it. Which idea fits Eastgate?</dd>
+          <dt>The question</dt><dd>Five people want to lease it. Which ideas would succeed in Eastgate?</dd>
           <dt>Your job</dt><dd>Spot the clues in the cultural landscape before you invest</dd>
         </dl>
         <div class="go"><button class="btn ghost" data-act="skip">Skip the briefing</button> <button class="btn primary big" data-act="go">Hear the briefing &#9654;</button></div>
@@ -431,7 +431,7 @@ function closed(run) {
         <div class="kicker">Pitch night is over</div>
         <h2>Check your worksheet</h2>
         <p>You heard all five pitches. Your five investments should add up to exactly <b>$1,000</b>.</p>
-        <p>Five years pass. Leases are signed, walls are painted, and the block changes. What happened at Vine and 18th, and where did your money end up?</p>
+        <p>The hall could only become one thing, so Five Years Later shows five possible futures: what each idea would have done to Vine and 18th if it had opened there, and what your money in it became.</p>
         <div style="margin-top:1.6cqw;display:flex;gap:1cqw;justify-content:center"><button class="btn primary big" data-go="#/reveal/class">Five years later &#128274;</button></div>
       </div></div>`, { spot: '50%' });
     return;
@@ -499,7 +499,7 @@ function reveal(mode, T) {
     let body;
     if (k === 0) {
       body = `<div class="curtain"><div class="panel"><div class="kicker">Five years later...</div><h2 style="font-size:4.4cqw">What Happened at Vine &amp; 18th?</h2>
-        <p style="font-size:1.8cqw">Five ventures. Five front pages of the neighborhood paper, five years from now, and what each one did to Eastgate's cultural landscape. ${mode === 'class' ? 'Each front page shows how much the venture <b>made per $1</b>. On your tracker, multiply: <b>Worth at end = what you invested &times; made per $1</b>.' : "Let's see what your money became."}</p></div></div>`;
+        <p style="font-size:1.8cqw">Five ideas, five possible futures. Each front page shows what Vine and 18th would look like five years after that idea opened in the hall, and what it did to Eastgate's cultural landscape. ${mode === 'class' ? 'Each front page shows how much the venture <b>made per $1</b>. On your tracker, multiply: <b>Worth at end = what you invested &times; made per $1</b>.' : "Let's see what your money became."}</p></div></div>`;
     } else if (k <= 2 * n && k % 2 === 1) {
       const id = order[(k - 1) / 2], c = T.pitches[id], p = C.pitches[id];
       const inv = run?.invest[id];
