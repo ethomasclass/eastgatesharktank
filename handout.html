@@ -87,6 +87,13 @@
     .eq div small { position: absolute; top: .02in; left: 0; font-style: italic; font-size: 7pt; color: var(--muted); }
     .checks { display: flex; gap: .16in; margin-top: .08in; font-size: 8.4pt; font-weight: 700; }
     .checks span::before { content: ''; display: inline-block; width: .12in; height: .12in; border: 1.5px solid var(--ink); margin-right: .05in; vertical-align: -1px; }
+    .frq { border: 2.5px solid var(--ink); padding: .07in .14in .06in; margin-top: .06in; }
+    .frq-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .05in; }
+    .frq-unit { font-weight: 800; font-size: 7pt; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
+    .stim { background: var(--tint); border-left: 5px solid var(--ink); padding: .06in .1in; font-size: 9pt; line-height: 1.38; margin-bottom: .04in; }
+    .fq { display: grid; grid-template-columns: .28in 1fr; gap: 0 .04in; margin-top: .05in; font-size: 9.6pt; }
+    .fq > span { width: .22in; height: .22in; background: var(--ink); color: #fff; font-weight: 900; font-size: 9pt; display: grid; place-items: center; }
+    .fq .lines i { height: .26in; }
     .foot { margin-top: auto; padding-top: .05in; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 7pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
     .tools { text-align: center; margin: 14px; font-family: system-ui; }
     .tools button { font: inherit; padding: 8px 18px; border-radius: 6px; border: 1px solid #555; background: #fff; cursor: pointer; }
@@ -167,7 +174,7 @@
       ${foot(1)}</section>`;
     const p2 = `<section class="page">${run('Pitch boxes')}${venture(V[1])}${venture(V[2])}${foot(2)}</section>`;
     const p3 = `<section class="page">${run('Pitch boxes')}${venture(V[3])}${venture(V[4])}${foot(3)}</section>`;
-    const p4 = `<section class="page">${run('Final tally · Build your thesis')}
+    const p4 = `<section class="page">${run('Final tally · Free response')}
       <div class="total">My total worth at the end <span>Add D (worth at end) for all five pitches</span><div class="box">$</div></div>
       <div class="qbox"><b>Which venture would add the best new layer to Eastgate's cultural landscape?</b> Use what you learned in the game and in the 3.2 reading. The best layer fits the people who already live here and keeps the history that is still visible. It is not always the pitch with the best salesperson.</div>
       <div class="sl">1 · Circle your choice</div>
@@ -176,18 +183,13 @@
         <div><div class="sl" style="margin-top:0">2 · Evidence from the game</div><small>A clue from the briefing, a pitch, or Five Years Later</small>${lines(4)}</div>
         <div><div class="sl" style="margin-top:0">3 · Evidence from the reading</div><small>A Unit 3 term and what it means</small>${lines(4)}</div>
       </div>
-      <div class="sl">4 · Explain</div>
-      <div style="font-weight:800;font-size:10pt">Who would feel at home there, and what layer of the landscape would it add or erase? Why is that better than the other four?</div>
-      ${lines(4)}
-      <div class="thesis">
-        <h3>5 · Build your thesis <span>Although → claim → because × 2</span></h3>
-        <div class="eq"><b>Although</b><div><small>the best case for a different venture</small></div></div>
-        <div class="eq"><b>Claim</b><div><small>the venture that adds the best layer</small></div></div>
-        <div class="eq"><b>because</b><div><small>reason 1 (from the game)</small></div></div>
-        <div class="eq"><b>and because</b><div><small>reason 2 (from the reading)</small></div></div>
-        <div style="font-weight:800;margin-top:.1in">Now write it as one sentence:</div>
-        ${lines(3)}
-        <div class="checks"><span>Starts with "Although"</span><span>Makes a clear claim</span><span>Gives two reasons</span><span>Uses the game and the reading</span></div>
+      <div class="frq">
+        <div class="frq-head"><span class="tab">4 · Free response</span><span class="frq-unit">Topic 3.2: Cultural Landscapes · use the AMSCO 3.2 reading and the game</span></div>
+        <div class="stim"><b>Eastgate, Vine &amp; 18th.</b> Czech immigrants built Saint Wenceslas Church in 1893, and its cornerstone is still carved in Czech. By 2000, seven in ten homes in the neighborhood spoke Spanish. On the parish hall, a Spanish tortillería sign is painted over an older Czech beer ad. Longtime residents call the area "the Barrio." Some say they first came because landlords elsewhere would not rent to them; now they stay because they want to.</div>
+        <div class="fq"><span>A</span><div><b>Define</b> sequent occupancy.${lines(2)}</div></div>
+        <div class="fq"><span>B</span><div><b>Describe</b> ONE feature of Eastgate's cultural landscape that was left by its charter group.${lines(2)}</div></div>
+        <div class="fq"><span>C</span><div><b>Describe</b> how ONE of the five pitches is an example of neolocalism.${lines(2)}</div></div>
+        <div class="fq"><span>D</span><div><b>Explain</b> how Eastgate shows that an ethnic enclave can form through both choice and segregation.${lines(4)}</div></div>
       </div>
       ${foot(4)}</section>`;
     document.getElementById('pages').innerHTML = p1 + p2 + p3 + p4;
